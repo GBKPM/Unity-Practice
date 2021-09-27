@@ -4,49 +4,49 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float fspeed;
-    public float fJumpForce;
-    public bool bJump = false;
+    public float moveSpeed;
+    public float jumpForce;
+    public bool jumping = false;
+
+    Rigidbody2D _rigidbody;
+
+    SpriteRenderer spriteRenderer;
+    private void Awake()
+    {
+        _rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+    }
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        float fMoveDist = fspeed * Time.deltaTime;
+        float moveDis = moveSpeed * Time.deltaTime;
+        Vector3 inputDir = new Vector3(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
 
         if (Input.GetKey(KeyCode.W))
         {
-            if (!bJump)
+            if (!jumping)
             {
-                bJump = true;
-                Rigidbody2D rigidbody2D = this.gameObject.GetComponent<Rigidbody2D>();
-                rigidbody2D.AddForce(Vector3.up * fJumpForce);
+                jumping = true;
+
+                GetComponent<Rigidbody2D>().AddForce(Vector3.up * jumpForce);
             }
         }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            transform.position += Vector3.down * fMoveDist;
-            Debug.Log("Dynamic.GetKey(RightArrow)");
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            this.gameObject.GetComponent<SpriteRenderer>().flipX = true;
-            transform.position += Vector3.left * fMoveDist;
-            Debug.Log("Dynamic.GetKey(RightArrow)");
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
-            transform.position += Vector3.right * fMoveDist;
-            Debug.Log("Dynamic.GetKey(RightArrow)");
-        }
-        
+
+        transform.position += inputDir * moveDis;
+
+        spriteRenderer.flipX = inputDir.y == 1;
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        bJump = false;
+        jumping = false;
     }
+
+
+
 }
