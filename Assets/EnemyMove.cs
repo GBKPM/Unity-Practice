@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    Rigidbody2D _rigidbody;
+    public float moveSpeed;
     public int nextMove;
+
+    Rigidbody2D _rigidbody;
     SpriteRenderer spriteRenderer;
     void Awake()
     {
@@ -24,11 +26,12 @@ public class EnemyMove : MonoBehaviour
     void NextAction()
     {
         nextMove = Random.Range(-1, 2);
+
         if (nextMove != 0)
             spriteRenderer.flipX = nextMove == 1;
 
-        float nextMoveTime = Random.Range(2f, 5f);
-        Invoke("NextAction", nextMoveTime);
-
+        Invoke("NextAction", Random.Range(2f, 5f));
     }
+
+
 }

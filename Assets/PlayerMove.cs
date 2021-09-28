@@ -9,8 +9,8 @@ public class PlayerMove : MonoBehaviour
     public bool jumping = false;
 
     Rigidbody2D _rigidbody;
-
     SpriteRenderer spriteRenderer;
+
     private void Awake()
     {
         _rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
@@ -25,8 +25,8 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         float moveDis = moveSpeed * Time.deltaTime;
-        Vector3 inputDir = new Vector3(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
-
+        Vector3 inputDir = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        
         if (Input.GetKey(KeyCode.W))
         {
             if (!jumping)
@@ -36,9 +36,7 @@ public class PlayerMove : MonoBehaviour
                 GetComponent<Rigidbody2D>().AddForce(Vector3.up * jumpForce);
             }
         }
-
         transform.position += inputDir * moveDis;
-
         spriteRenderer.flipX = inputDir.y == 1;
 
     }
@@ -46,7 +44,4 @@ public class PlayerMove : MonoBehaviour
     {
         jumping = false;
     }
-
-
-
 }
