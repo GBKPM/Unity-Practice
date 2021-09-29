@@ -20,7 +20,8 @@ public class EnemyMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        _rigidbody.velocity = new Vector3(nextMove, _rigidbody.velocity.y);
+        //플레이어의 x값을 1초당 nextMove만큼 이동한다.
+        transform.position += new Vector3(nextMove, 0, 0) * Time.fixedDeltaTime;
     }
 
     void NextAction()
