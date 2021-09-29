@@ -42,12 +42,10 @@ public class PlayerMove : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Issue:
-        //어떤 물체건 일단 충돌하면 점프 중 여부가 변화하는 문제점 존재.
-        //예: 독수리와 닿으면 다시 점프가 가능함.
-        //TODO:
-        //밟을 땅 등을 분리할 Layer를 새로 생성하여, 땅을 밟았을 떄만.
-        //점프 중 여부를 나타내는 변수를 변화시킬것,
-        jumping = false;
+        //바닥에 닿을때만 점프가 가능하도록
+        if(collision.gameObject.CompareTag("floor"))
+        {
+            jumping = false;
+        }
     }
 }
