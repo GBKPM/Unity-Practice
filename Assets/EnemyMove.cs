@@ -20,19 +20,30 @@ public class EnemyMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        //플레이어의 x값을 1초당 nextMove만큼 이동한다.
         transform.position += new Vector3(nextMove, 0, 0) * Time.fixedDeltaTime;
+        //낙하 검사
+        Debug.DrawRay(transform.position, Vector3.down, new Color(0, 1, 0));
+        RaycastHit2D rayHit = Physics2D.Raycast(transform.position, Vector3.down, 1, LayerMask.GetMask("floor"));
+        if (rayHit.collider == null)
+        {
+            fallcheck();
+        }
+    }
+
+    void fallcheck()
+    {
+        nextMove *= -1;
+        spriteRenderer.flipX = nextMove == 1;
+
+        CancelInvoke();
+        Invoke("NextAction", 2);
     }
 
     void NextAction()
     {
         nextMove = Random.Range(-1, 2);
-
         if (nextMove != 0)
             spriteRenderer.flipX = nextMove == 1;
-
         Invoke("NextAction", Random.Range(2f, 5f));
     }
-
-
 }
