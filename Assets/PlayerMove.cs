@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class PlayerMove : MonoBehaviour
 
     Rigidbody2D _rigidbody;
     SpriteRenderer spriteRenderer;
+
 
     private void Awake()
     {
@@ -38,14 +40,23 @@ public class PlayerMove : MonoBehaviour
         }
         transform.position += inputDir * moveDis;
         spriteRenderer.flipX = inputDir.y == 1;
-
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    void FixedUpdate()
     {
-        //바닥에 닿을때만 점프가 가능하도록
-        if(collision.gameObject.CompareTag("floor"))
+        Debug.DrawRay(transform.position, Vector3.down, new Color(0, 1, 0));
+        RaycastHit2D rayHit = Physics2D.Raycast(transform.position, Vector3.down, 1, LayerMask.GetMask("Floor"));
+        if (rayHit.collider != null)
         {
             jumping = false;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("obstacle"))
+        {
+            Destroy(this.gameObject);
         }
     }
 }
