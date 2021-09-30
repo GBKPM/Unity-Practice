@@ -35,7 +35,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         
-        Vector3 inputDir = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        Vector3 inputDir = new Vector3(Input.GetAxis("Horizontal"), 0);
         
         if (Input.GetAxisRaw("Jump") == 1)
         {
