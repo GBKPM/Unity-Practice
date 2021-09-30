@@ -23,18 +23,27 @@ public class EnemyMove : MonoBehaviour
         transform.position += new Vector3(nextMove, 0, 0) * Time.fixedDeltaTime;
         //낙하 검사
         Debug.DrawRay(transform.position, Vector3.down, new Color(0, 1, 0));
-        RaycastHit2D rayHit = Physics2D.Raycast(transform.position, Vector3.down, 1, LayerMask.GetMask("floor"));
+        RaycastHit2D rayHit = Physics2D.Raycast(transform.position, Vector3.down, 1, LayerMask.GetMask("Floor"));
         if (rayHit.collider == null)
         {
-            fallcheck();
+            OutCheck();
         }
     }
 
-    void fallcheck()
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        //박스에 부딪치면 방향전환
+        if (collision.gameObject.CompareTag("Box"))
+        {
+            OutCheck();
+        }
+    }
+
+    void OutCheck()
     {
         nextMove *= -1;
         spriteRenderer.flipX = nextMove == 1;
-
+        
         CancelInvoke();
         Invoke("NextAction", 2);
     }
