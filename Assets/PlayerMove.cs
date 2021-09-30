@@ -49,7 +49,8 @@ public class PlayerMove : MonoBehaviour
 
         float moveDis = moveSpeed * Time.deltaTime;
         transform.position += inputDir * moveDis;
-        spriteRenderer.flipX = inputDir.y == 1;
+        //좌우로 이동중이 아닐경우 마지막으로 바라본 방향을 바라봄.
+        if(inputDir.x != 0) spriteRenderer.flipX = inputDir.x < 0;
     }
 
     void FixedUpdate()
