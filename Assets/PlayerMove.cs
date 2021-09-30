@@ -5,9 +5,17 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float moveSpeed;
-    public float jumpForce;
-    public bool jumping = false;
+    [Header("Adjustments")]
+    [SerializeField]
+    private float moveSpeed;
+    [SerializeField]
+    private float jumpForce;
+
+    [Header("Debug")]
+    [SerializeField]
+    private bool jumping = false;
+
+
 
     Rigidbody2D _rigidbody;
     SpriteRenderer spriteRenderer;
@@ -26,18 +34,20 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        float moveDis = moveSpeed * Time.deltaTime;
+        
         Vector3 inputDir = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetAxisRaw("Jump") == 1)
         {
             if (!jumping)
             {
                 jumping = true;
 
-                GetComponent<Rigidbody2D>().AddForce(Vector3.up * jumpForce);
+                _rigidbody.AddForce(Vector3.up * jumpForce);
             }
         }
+
+        float moveDis = moveSpeed * Time.deltaTime;
         transform.position += inputDir * moveDis;
         spriteRenderer.flipX = inputDir.y == 1;
     }
