@@ -23,7 +23,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake()
     {
-        _rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
+        _rigidbody = gameObject.GetComponent<Rigidbody2D>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
