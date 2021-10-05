@@ -16,10 +16,8 @@ public class PlayerMove : MonoBehaviour
     private bool jumping = false;
 
 
-
     Rigidbody2D _rigidbody;
     SpriteRenderer spriteRenderer;
-
 
     private void Awake()
     {
@@ -51,6 +49,8 @@ public class PlayerMove : MonoBehaviour
         transform.position += inputDir * moveDis;
         //좌우로 이동중이 아닐경우 마지막으로 바라본 방향을 바라봄.
         if(inputDir.x != 0) spriteRenderer.flipX = inputDir.x < 0;
+        if (transform.position.y < -10) Dead();
+        
     }
 
     void FixedUpdate()
@@ -67,7 +67,18 @@ public class PlayerMove : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("obstacle") || collision.gameObject.CompareTag("Enemy"))
         {
-            Destroy(this.gameObject);
+            Dead();
         }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Check"))
+        {
+            GameObject.FindWithTag("Killblock").transform.position = new Vector2(18, 12);
+        }
+    }
+    void Dead()
+    {
+        transform.position = new Vector2(-7, 0);
     }
 }
